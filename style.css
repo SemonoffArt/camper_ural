@@ -574,6 +574,46 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   DESCRIPTION
+   ============================================ */
+.description__content {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.description__content p {
+    margin-bottom: 1.25rem;
+}
+
+.description__lead {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    line-height: 1.7;
+}
+
+.description__content strong {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.description__quote {
+    margin: 2rem 0 0;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    border-left: 4px solid var(--color-accent);
+    background-color: var(--color-white);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+}
+
+/* ============================================
    GALLERY
    ============================================ */
 .gallery__slider {
@@ -784,6 +824,21 @@ h1, h2, h3, h4, h5, h6 {
 .specs__table tr:hover th,
 .specs__table tr:hover td {
     background-color: rgba(46, 74, 61, 0.03);
+}
+
+.specs__table td ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    list-style-type: disc;
+}
+
+.specs__table td ul li {
+    margin-bottom: 0.375rem;
+    line-height: 1.5;
+}
+
+.specs__table td ul li:last-child {
+    margin-bottom: 0;
 }
 
 /* ============================================
