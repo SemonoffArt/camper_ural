@@ -14,7 +14,7 @@
         initMobileNav();
         initSmoothScroll();
         initRevealAnimations();
-        initDynamicGallery();
+        initGallerySlider();
         initPrivacyModal();
         initContactForm();
     });
