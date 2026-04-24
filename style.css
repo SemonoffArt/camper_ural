@@ -971,6 +971,13 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: underline;
 }
 
+.contact__map {
+    margin-top: 0.75rem;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Contact Form */
 .contact__form {
     background-color: var(--color-white);
