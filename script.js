@@ -14,7 +14,7 @@
         initMobileNav();
         initSmoothScroll();
         initRevealAnimations();
-        initGallerySlider();
+        initDynamicGallery();
         initPrivacyModal();
         initContactForm();
     });
@@ -144,6 +144,129 @@
         revealElements.forEach(function (el) {
             observer.observe(el);
         });
+    }
+
+    /* ============================================
+       Dynamic Gallery
+       ============================================ */
+    function initDynamicGallery() {
+        var track = document.getElementById('galleryTrack');
+        var grid = document.getElementById('galleryGrid');
+        if (!track || !grid) return;
+
+        track.innerHTML = '';
+        grid.innerHTML = '';
+
+        var cached = sessionStorage.getItem('galleryImages');
+        if (cached) {
+            try {
+                var images = JSON.parse(cached);
+                if (images && images.length > 0) {
+                    buildGallery(images, track, grid);
+                    initGallerySlider();
+                    return;
+                }
+            } catch (e) {
+                sessionStorage.removeItem('galleryImages');
+            }
+        }
+
+        // ЗАМЕНИТЬ: если изменили имя пользователя или репозитория на GitHub
+        var apiUrl = 'https://api.github.com/repos/semonoffart/camper-ural/contents/images';
+
+        fetch(apiUrl)
+            .then(function (response) {
+                if (!response.ok) throw new Error('API error');
+                return response.json();
+            })
+            .then(function (files) {
+                if (!Array.isArray(files)) throw new Error('Invalid API response');
+
+                var images = files
+                    .filter(function (f) {
+                        return f.type === 'file' && /\.(jpg|jpeg|png|webp)$/i.test(f.name);
+                    })
+                    .map(function (f) {
+                        return { src: './images/' + f.name, name: f.name };
+                    });
+
+                if (images.length === 0) {
+                    showNoImages(track, grid);
+                    return;
+                }
+
+                sessionStorage.setItem('galleryImages', JSON.stringify(images));
+                buildGallery(images, track, grid);
+                initGallerySlider();
+            })
+            .catch(function () {
+                scanPhotoPattern(track, grid);
+            });
+    }
+
+    function buildGallery(images, track, grid) {
+        images.forEach(function (item, idx) {
+            var slide = document.createElement('div');
+            slide.className = 'gallery__slide';
+            slide.innerHTML =
+                '<img src="' + item.src + '" alt="Фото прицепа «Кочевник 1»" loading="lazy">' +
+                '<div class="gallery__caption">Фото ' + (idx + 1) + '</div>';
+            track.appendChild(slide);
+
+            var gridItem = document.createElement('div');
+            gridItem.className = 'gallery__item';
+            gridItem.innerHTML =
+                '<img src="' + item.src + '" alt="Фото прицепа «Кочевник 1»" loading="lazy">';
+            grid.appendChild(gridItem);
+        });
+    }
+
+    function showNoImages(track, grid) {
+        var msg = '<div style="text-align:center;padding:2rem;color:#5c5c5c;">Фотографии не найдены. Добавьте изображения в папку <code style="background:#f5f1eb;padding:0.125rem 0.375rem;border-radius:4px;">images/</code>.</div>';
+        track.innerHTML = msg;
+        grid.innerHTML = msg;
+    }
+
+    function scanPhotoPattern(track, grid) {
+        var maxPhotos = 20;
+        var extensions = ['jpg', 'jpeg', 'png', 'webp'];
+        var results = {};
+        var pending = maxPhotos * extensions.length;
+
+        function checkDone() {
+            pending--;
+            if (pending > 0) return;
+
+            var images = [];
+            for (var i = 1; i <= maxPhotos; i++) {
+                if (results[i]) {
+                    images.push({ src: './images/photo' + i + '.' + results[i] });
+                }
+            }
+
+            if (images.length === 0) {
+                showNoImages(track, grid);
+            } else {
+                buildGallery(images, track, grid);
+                initGallerySlider();
+            }
+        }
+
+        for (var i = 1; i <= maxPhotos; i++) {
+            for (var j = 0; j < extensions.length; j++) {
+                (function (index, ext) {
+                    var img = new Image();
+                    img.onload = function () {
+                        if (!results[index]) results[index] = ext;
+                        checkDone();
+                    };
+                    img.onerror = function () {
+                        checkDone();
+                    };
+                    img.src = './images/photo' + index + '.' + ext;
+                })(i, extensions[j]);
+            }
+        }
     }
 
     /* ============================================
