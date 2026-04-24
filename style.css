@@ -1093,6 +1093,117 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   LIGHTBOX
+   ============================================ */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.92);
+    cursor: pointer;
+}
+
+.lightbox__content {
+    position: relative;
+    z-index: 1;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox__img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox__counter {
+    margin-top: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+}
+
+.lightbox__close,
+.lightbox__nav {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: var(--color-white);
+    transition: background-color var(--transition), transform var(--transition);
+    cursor: pointer;
+}
+
+.lightbox__close:hover,
+.lightbox__nav:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.lightbox__close {
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+.lightbox__nav--prev {
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox__nav--next {
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox__nav--prev:hover,
+.lightbox__nav--next:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+@media (min-width: 768px) {
+    .lightbox__nav--prev {
+        left: 2rem;
+    }
+
+    .lightbox__nav--next {
+        right: 2rem;
+    }
+}
+
+/* Make gallery grid items clickable */
+.gallery__item {
+    cursor: pointer;
+}
+
+/* ============================================
    PLACEHOLDER IMAGES (when no image file exists)
    ============================================ */
 img[src$=".jpg"],

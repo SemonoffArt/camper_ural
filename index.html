@@ -541,6 +541,24 @@
         </div>
     </div>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Просмотр фото">
+        <div class="lightbox__overlay"></div>
+        <button class="lightbox__close" aria-label="Закрыть">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее фото">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="lightbox__nav lightbox__nav--next" aria-label="Следующее фото">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="lightbox__content">
+            <img src="" alt="" class="lightbox__img" id="lightboxImg">
+            <div class="lightbox__counter" id="lightboxCounter"></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
